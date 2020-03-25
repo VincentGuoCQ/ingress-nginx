@@ -23,6 +23,8 @@ import (
 	"strings"
 	"time"
 
+	"k8s.io/ingress-nginx/internal/ingress/annotations/log"
+
 	"github.com/mitchellh/hashstructure"
 	apiv1 "k8s.io/api/core/v1"
 	networking "k8s.io/api/networking/v1beta1"
@@ -805,6 +807,8 @@ func (n *NGINXController) createUpstreams(data []*ingress.Ingress, du *ingress.B
 					HeaderValue:   anns.Canary.HeaderValue,
 					HeaderPattern: anns.Canary.HeaderPattern,
 					Cookie:        anns.Canary.Cookie,
+					CookieValue:   anns.Canary.CookieValue,
+					CookiePattern: anns.Canary.CookiePattern,
 				}
 			}
 
@@ -869,6 +873,8 @@ func (n *NGINXController) createUpstreams(data []*ingress.Ingress, du *ingress.B
 						HeaderValue:   anns.Canary.HeaderValue,
 						HeaderPattern: anns.Canary.HeaderPattern,
 						Cookie:        anns.Canary.Cookie,
+						CookieValue:   anns.Canary.CookieValue,
+						CookiePattern: anns.Canary.CookiePattern,
 					}
 				}
 
