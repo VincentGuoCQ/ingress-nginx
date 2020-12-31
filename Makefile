@@ -49,7 +49,7 @@ ifeq ($(ARCH),)
     $(error mandatory variable ARCH is empty, either set it when calling the command or make sure 'go env GOARCH' works)
 endif
 
-REGISTRY ?= gcr.io/k8s-staging-ingress-nginx
+REGISTRY ?= cargo.dev.caicloud.xyz/release
 
 BASE_IMAGE ?= k8s.gcr.io/ingress-nginx/nginx:v20201215-ga48ae4203@sha256:460be3452745c8bd944bee8435df962f53082e6f346b9f1742f6d803fe985ac4
 
@@ -68,12 +68,12 @@ image: clean-image ## Build image for a particular arch.
 		--build-arg TARGETARCH="$(ARCH)" \
 		--build-arg COMMIT_SHA="$(COMMIT_SHA)" \
 		--build-arg BUILD_ID="$(BUILD_ID)" \
-		-t $(REGISTRY)/controller:$(TAG) rootfs
+		-t $(REGISTRY)/ingress-nginx-controller:$(TAG) rootfs
 
 .PHONY: clean-image
 clean-image: ## Removes local image
-	echo "removing old image $(REGISTRY)/controller:$(TAG)"
-	@docker rmi -f $(REGISTRY)/controller:$(TAG) || true
+	echo "removing old image $(REGISTRY)/ingress-nginx-controller:$(TAG)"
+	@docker rmi -f $(REGISTRY)/ingress-nginx-controller:$(TAG) || true
 
 .PHONY: build
 build:  ## Build ingress controller, debug tool and pre-stop hook.
@@ -218,4 +218,4 @@ release: ensure-buildx clean
 		--build-arg VERSION="$(TAG)" \
 		--build-arg COMMIT_SHA="$(COMMIT_SHA)" \
 		--build-arg BUILD_ID="$(BUILD_ID)" \
-		-t $(REGISTRY)/controller:$(TAG) rootfs
+		-t $(REGISTRY)/ingress-nginx-controller:$(TAG) rootfs
